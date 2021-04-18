@@ -34,7 +34,7 @@ public class Game {
     }
 
     private void rulesScreen() {
-        System.out.println("In Blackjack, each card has a value ranging from 1-11. Royal cards (kings, queens, jacks) are worth 10 points of score each.\nAces are worth either 1 or 11 points, you may choose. The number cards are worth their value (e.g. a 4 of hearts is worth 4 points).\n The goal of Blackjack is to get 21 points of score, or as close as you can to it. If you go over 21 points however, you bust and lose the game immediately.\n ");
+        System.out.println("\n\n\nIn Blackjack, each card has a value ranging from 1-11. Royal cards (kings, queens, jacks) are worth 10 points of score each.\nAces are worth either 1 or 11 points, you may choose. The number cards are worth their value (e.g. a 4 of hearts is worth 4 points).\n The goal of Blackjack is to get 21 points of score, or as close as you can to it. If you go over 21 points however, you bust and lose the game immediately.\n ");
         System.out.println("To play, press enter to continue...");
         try {
             System.in.read();
@@ -46,7 +46,7 @@ public class Game {
     }
 
     private void gameScreen() {
-        System.out.print("Hello! ");
+        System.out.print("\n\n\nHello! ");
         while(score < 21) {
             System.out.println("Would you like to hit (h) or stay (s)? You can also quit if you'd like (q).");
             
@@ -59,9 +59,9 @@ public class Game {
                 deck.add(new Card(sc));
                 System.out.println("You have got the " + deck.get(deck.size()-1).getNameOfCard() + "!");
                 score += deck.get(deck.size()-1).getPointValue();
-                System.out.println("Your score: " + score);
+                System.out.println("Your score: " + score + "\n\n\n");
             } else {
-                System.out.println("Invalid input, try again! Type h for hit, s to stay, or q to quit.");
+                System.out.println("\n\n\nInvalid input, try again! Type h for hit, s to stay, or q to quit.");
             }
         }
 
