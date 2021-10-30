@@ -46,10 +46,15 @@ public class Game {
     }
 
     private void gameScreen() {
+        boolean prompted = false; // if the player has already been asked for an action (to avoid empty input)
         System.out.print("\n\n\nHello! ");
+
         while(score < 21) {
-            System.out.println("Would you like to hit (h) or stay (s)? You can also quit if you'd like (q).");
-            
+            if(!prompted) {
+                System.out.println("Would you like to hit (h) or stay (s)? You can also quit if you'd like (q).");
+                prompted = true;
+            }
+
             input = sc.nextLine().toLowerCase();
             if(input.equals("s")) {
                 break;
@@ -60,7 +65,8 @@ public class Game {
                 System.out.println("You have got the " + deck.get(deck.size()-1).getNameOfCard() + "!");
                 score += deck.get(deck.size()-1).getPointValue();
                 System.out.println("Your score: " + score + "\n\n\n");
-            } else {
+                prompted = false;
+            } else if(!input.equals("")) {
                 System.out.println("\n\n\nInvalid input, try again! Type h for hit, s to stay, or q to quit.");
             }
         }
