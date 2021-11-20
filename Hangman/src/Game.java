@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-    ArrayList<Guess> deck = new ArrayList<Guess>();
+    ArrayList<Guess> guesses = new ArrayList<Guess>();
     Scanner sc = new Scanner(System.in);
     String input;
-    int lives = 10;
+    int lives = 6;
     String screen = "welcome";
 
     public void play() {
@@ -16,7 +16,7 @@ public class Game {
     }
 
     private void welcomeScreen() {
-        System.out.println("Welcome to Hangman! ");
+        System.out.println("Welcome to Hangman! Type 'y' if you'd like the rules, 'n' to skip or 'q' to quit.");
         while(true) {
             input = sc.nextLine().toLowerCase();
             if(input.equals("y")) {
@@ -34,7 +34,7 @@ public class Game {
     }
 
     private void rulesScreen() {
-        System.out.println("\n\n\nIn Hangman, try to guess a word by continually entering characters. However, incorrectly guessing a character loses a life.\n Guess the word to win, or lose all your lives and you lose!\n ");
+        System.out.println("\n\n\nHow do you not know how to play Hangman? Just guess characters until something works.\n ");
         System.out.println("To play, press enter to continue...");
         try {
             System.in.read();
@@ -56,11 +56,6 @@ public class Game {
                 break;
             } else if(input.equals("q")) {
                 System.exit(0);
-            } else if(input.equals("h")) {
-                deck.add(new Guess(sc));
-                System.out.println("You have got the " + deck.get(deck.size()-1).getNameOfCard() + "!");
-                score += deck.get(deck.size()-1).getPointValue();
-                System.out.println("Your score: " + score + "\n\n\n");
             } else {
                 System.out.println("\n\n\nInvalid input, try again! Type h for hit, s to stay, or q to quit.");
             }
