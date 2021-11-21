@@ -1,12 +1,17 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.lang.Math;
 
 public class Game {
-    ArrayList<Guess> guesses = new ArrayList<Guess>();
+    String screen = "welcome";
+
     Scanner sc = new Scanner(System.in);
     String input;
+
+    ArrayList<Guess> guesses = new ArrayList<Guess>();
+    String word;
+    char currentGuess;
     int lives = 6;
-    String screen = "welcome";
 
     public void play() {
         welcomeScreen();
@@ -48,10 +53,18 @@ public class Game {
     private void gameScreen() {
         System.out.print("\n\n\nHello! ");
         while(screen.equals("play")) {
+            word = generateWord();
+
+            System.out.println(word);
+
             System.out.println("What letter would you like to guess?");
             System.out.println("Lives: " + lives);
             
             input = sc.nextLine().toLowerCase();
+            currentGuess = input.charAt(0);
+
+            
+
             if(input.equals("s")) {
                 break;
             } else if(input.equals("q")) {
@@ -67,5 +80,9 @@ public class Game {
             System.out.println("Congrats on winning! Try to get no letters wrong next time!");
         else
             System.out.println("Ouch! Better luck next time!");
+    }
+
+    private String generateWord() {
+        return Main.wordlist[(int)(Math.floor(Math.random()*Main.words))];
     }
 }
