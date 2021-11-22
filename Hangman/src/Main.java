@@ -3,7 +3,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Main {
-    public static final int words = 858; // lines in the list.txt file, this needs to be manually updated
+    public static final int words = 859; // lines in the list.txt file, this needs to be manually updated
     public static String[] wordlist = new String[words];
     private static final String listPath = System.getProperty("user.dir") + "/Hangman/src/list.txt";
 

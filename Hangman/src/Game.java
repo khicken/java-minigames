@@ -12,7 +12,7 @@ public class Game {
     boolean errorStrMsg = false;
     String word;
     char currentGuess;
-    int lives = 6, lettersLeft = 0; // lettersLeft will be set to the real value later
+    int lives = 6, lettersLeft = 0, lettersRight = 0; // lettersLeft/Right will be set to the real value later
 
     public void play() {
         welcomeScreen();
@@ -82,19 +82,20 @@ public class Game {
             }
 
             // check if guess is correct
-            if(Guess.correctGuess(word, currentGuess)) {
-                if(lettersLeft != 1)
+            lettersRight = Guess.correctGuess(word, currentGuess);
+            if(lettersRight >= 1) {
+                if(lettersLeft >= 1)
                     System.out.print("\n\nNice job! ");
-                lettersLeft -= 1;
+                lettersLeft -= lettersRight;
             } else {
-                if(lives != 1)
+                if(lives >= 1)
                     System.out.print("\n\nIncorrect guess, try again! ");
                 lives -= 1;
             }
 
+            // when player ends game
             if(lettersLeft == 0) {
-                // when player finished game
-                System.out.println("\n\nWord: " + wordDisplay(word, guesses));
+                System.out.println("\n\nFinal word: " + word);
                 System.out.println(endings[(int)Math.floor(Math.random()*endings.length)]);
                 break;
             } else if(lives == 0) {
@@ -109,7 +110,7 @@ public class Game {
         String output = "";
 
         for(int i = 0; i < w.length(); i++) {
-            if(g.getGuessedList().contains(w.toCharArray()[i]))
+            if(g.getGuessedList().contains(Character.toLowerCase(w.toCharArray()[i])))
                 output += w.toCharArray()[i] + " ";
             else
                 output += "_ ";

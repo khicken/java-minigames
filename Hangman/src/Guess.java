@@ -8,14 +8,15 @@ public class Guess {
         guessedList = new ArrayList<>();
     }
 
-    // check if letter is in the word
-    public static boolean correctGuess(String w, char g) {
+    // return number of characters found in the word
+    public static int correctGuess(String w, char g) {
+        int returnVal = 0;
         for(char a: w.toCharArray()) {
-            if(g == a)
-                return true;
+            if(g == Character.toLowerCase(a))
+                returnVal++;
         }
 
-        return false;
+        return returnVal;
     }
 
     // returns true if guess hasn't been guessed before, false if guess has already been guessed before
