@@ -9,6 +9,7 @@ public class Game {
     String input;
 
     Guess guesses = new Guess();
+    boolean errorStrMsg = false;
     String word;
     char currentGuess;
     int lives = 6, lettersLeft = 0; // lettersLeft will be set to the real value later
@@ -51,31 +52,54 @@ public class Game {
     }
 
     private void gameScreen() {
-        System.out.print("\n\n\nHello! ");
+        System.out.print("\n\n\n\n\nHello! ");
         word = generateWord();
         lettersLeft = word.length();
         while(screen.equals("play")) {
-            System.out.println("What letter would you like to guess?");
-            System.out.println(wordDisplay(word, guesses));
-            System.out.println("Lives: " + lives);
+            if(errorStrMsg) {
+                System.out.println("\nEnter a character or one that isn't a duplicate lad!");
+                errorStrMsg = false;
+            } else {
+                System.out.println("What letter would you like to guess?");
+                System.out.println("Lives: " + lives);
+                System.out.println("Word: " + wordDisplay(word, guesses));
+                if(!guessDisplay(guesses).isEmpty())
+                    System.out.println("Previous guesses: " + guessDisplay(guesses));
+            }
             
             input = sc.nextLine().toLowerCase();
-            currentGuess = input.charAt(0);
+            try { // if user returns an empty line
+                currentGuess = input.charAt(0);
+            } catch(StringIndexOutOfBoundsException e) {
+                errorStrMsg = true;
+                continue;
+            }
 
+            // check if guess is a duplicate
+            if(!guesses.validateGuess(currentGuess)) {
+                errorStrMsg = true;
+                continue;
+            }
+
+            // check if guess is correct
             if(Guess.correctGuess(word, currentGuess)) {
-                System.out.println("Nice job!");
+                if(lettersLeft != 1)
+                    System.out.print("\n\nNice job! ");
                 lettersLeft -= 1;
             } else {
-                System.out.println("Incorrect guess, try again!");
+                if(lives != 1)
+                    System.out.print("\n\nIncorrect guess, try again! ");
                 lives -= 1;
             }
 
             if(lettersLeft == 0) {
                 // when player finished game
-                System.out.println("\n\n\n" + (int)Math.floor(Math.random()*endings.length));
+                System.out.println("\n\nWord: " + wordDisplay(word, guesses));
+                System.out.println(endings[(int)Math.floor(Math.random()*endings.length)]);
                 break;
             } else if(lives == 0) {
-                System.out.println("nice you died");
+                System.out.println("\n\nnice you died");
+                System.out.printf("Well, the word was %s.\n", word);
                 break;
             }
         }
@@ -92,6 +116,17 @@ public class Game {
         }
 
         return output;
+    }
+
+    private String guessDisplay(Guess g) {
+        String output = "";
+
+        for(char a: g.getGuessedList())
+            output += a + ", ";
+        
+        if(!output.isEmpty())
+            return output.substring(0, output.length()-2); // remove that last comma
+        return "";
     }
 
     private String generateWord() {
