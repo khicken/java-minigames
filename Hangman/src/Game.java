@@ -1,17 +1,17 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.lang.Math;
 
 public class Game {
     String screen = "welcome";
+    String[] endings = {"gg", "gg ez", "Good Game", "well played", "gg wp ez brb nt", "Great job!", "Awesome job!", "Supercalifragolisticexpialidocious to you!", "bruh meme", "great game"};
 
     Scanner sc = new Scanner(System.in);
     String input;
 
-    ArrayList<Guess> guesses = new ArrayList<Guess>();
+    Guess guesses = new Guess();
     String word;
     char currentGuess;
-    int lives = 6;
+    int lives = 6, lettersLeft = 0; // lettersLeft will be set to the real value later
 
     public void play() {
         welcomeScreen();
@@ -52,34 +52,46 @@ public class Game {
 
     private void gameScreen() {
         System.out.print("\n\n\nHello! ");
+        word = generateWord();
+        lettersLeft = word.length();
         while(screen.equals("play")) {
-            word = generateWord();
-
-            System.out.println(word);
-
             System.out.println("What letter would you like to guess?");
+            System.out.println(wordDisplay(word, guesses));
             System.out.println("Lives: " + lives);
             
             input = sc.nextLine().toLowerCase();
             currentGuess = input.charAt(0);
 
-            
-
-            if(input.equals("s")) {
-                break;
-            } else if(input.equals("q")) {
-                System.exit(0);
+            if(Guess.correctGuess(word, currentGuess)) {
+                System.out.println("Nice job!");
+                lettersLeft -= 1;
             } else {
-                System.out.println("\n\n\nInvalid input, try again! Type h for hit, s to stay, or q to quit.");
+                System.out.println("Incorrect guess, try again!");
+                lives -= 1;
+            }
+
+            if(lettersLeft == 0) {
+                // when player finished game
+                System.out.println("\n\n\n" + (int)Math.floor(Math.random()*endings.length));
+                break;
+            } else if(lives == 0) {
+                System.out.println("nice you died");
+                break;
             }
         }
+    }
 
-        if(screen.equals("win-ace"))
-            System.out.println("Congrats on winning without losing a single life! Amazing! Thanks for playing!");
-        else if(screen.equals("win"))
-            System.out.println("Congrats on winning! Try to get no letters wrong next time!");
-        else
-            System.out.println("Ouch! Better luck next time!");
+    private String wordDisplay(String w, Guess g) {
+        String output = "";
+
+        for(int i = 0; i < w.length(); i++) {
+            if(g.getGuessedList().contains(w.toCharArray()[i]))
+                output += w.toCharArray()[i] + " ";
+            else
+                output += "_ ";
+        }
+
+        return output;
     }
 
     private String generateWord() {
